@@ -11,14 +11,15 @@ data class LangProps(
     val state: String,
     val sees: Char,
     val onStack: Char,
-    val action: List<ActionProps>
+    val action: ActionProps
 )
 
 data class LangStackMachine (
     val states: String,
     val alphabet: String,
-    val props: LangProps,
-    val startState: Char,
+    val props: List<LangProps>,
+    val startState: String,
+    val startStack: String,
     val endStates: String,
     val chain: String? = null
 ) {
