@@ -2,11 +2,17 @@ package core.model
 
 import java.util.*
 
+data class IdentifyResult(
+    val IsRecognized: Boolean,
+    val Log: String
+)
+
 data class Branch(
     val previous: Branch?,
     val state: String,
     val stackChain: Stack<Char>,
-    val stackMachine: Stack<Char>
+    val stackMachine: Stack<Char>,
+    val listProps: List<LangProps> = listOf()
 ) {
     val stringStackChain = if (!stackChain.isNullOrEmpty()) {
         stackChain.toString()
