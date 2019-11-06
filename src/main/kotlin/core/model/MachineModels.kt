@@ -15,11 +15,11 @@ data class Branch(
     val listProps: List<LangProps> = listOf()
 ) {
     val stringStackChain = if (!stackChain.isNullOrEmpty()) {
-        stackChain.toString()
+        stackChain.reversed().toString()
     } else { "λ" }
 
     val stringStackMachine = if (!stackMachine.isNullOrEmpty()) {
-        stackMachine.toString()
+        stackMachine.reversed().toString()
     } else { "λ" }
 
     fun ReconstructHistory(): String {

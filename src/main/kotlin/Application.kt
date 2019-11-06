@@ -88,8 +88,12 @@ fun main() {
         endStates = "q1"
 
     )
-
+    val chain = "abbabaaabbλ"
     val stackMachine = StackMachine(data)
-    val result = stackMachine.identifyChain("abbabaaabbλ")
-    println(result)
+    val result = stackMachine.identifyChain(chain)
+    println(result.Log)
+    if (result.IsRecognized)
+        println("The string '$chain' is ACCEPTED")
+    else
+        println("The string '$chain' is NOT ACCEPTED")
 }

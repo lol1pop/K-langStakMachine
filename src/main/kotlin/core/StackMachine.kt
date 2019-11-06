@@ -24,7 +24,7 @@ class StackMachine(initData: LangStackMachine) {
             var state = branch.state
             stackChain = branch.stackChain
             stackMachine = branch.stackMachine
-            while (!stackChain.empty() || !stackMachine.empty()) {
+            while (!stackChain.empty() && !stackMachine.empty()) {
                 val charChain = stackChain.peek()
                 if (!alphabets.contains(charChain)) println("WARNING: symbol {${charChain}} not contains in the Lang alphabets")
                 val charSack = stackMachine.peek()
@@ -46,6 +46,7 @@ class StackMachine(initData: LangStackMachine) {
                 for (symbol in push){
                     stackMachine.push(symbol)
                 }
+                branch = Branch(branch, state, stackChain, stackMachine)
             }
             if(stackChain.empty()){
                 if(stackMachine.empty()){
@@ -84,10 +85,10 @@ class StackMachine(initData: LangStackMachine) {
     }
 
     private fun stringToStack(chain: String): Stack<Char> {
-        val stackMachine = Stack<Char>()
-        chain.toList()
-            .stream()
-            .peek { symbol -> stackMachine.push(symbol) }
-        return stackMachine
+        val stack = Stack<Char>()
+         for(symbol in chain.reversed()) {
+             stack.push(symbol)
+         }
+        return stack
     }
 }
