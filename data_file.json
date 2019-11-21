@@ -1,0 +1,64 @@
+{
+  "chain": "00111110",
+  "states": "q0,q1",
+  "alphabet": "01",
+  "props": [
+    {
+      "state": "q0",
+      "sees": "0",
+      "onStack": "Z",
+      "action": {
+        "mvState": "q0",
+        "push": "0Z"
+      }
+    },
+    {
+      "state": "q0",
+      "sees": "0",
+      "onStack": "0",
+      "action": {
+        "mvState": "q0",
+        "push": "00"
+      }
+    },
+    {
+      "state": "q0",
+      "sees": "1",
+      "onStack": "0",
+      "action": {
+        "mvState": "q1",
+        "push": ""
+      }
+    },
+    {
+      "state": "q1",
+      "sees": "1",
+      "onStack": "0",
+      "action": {
+        "mvState": "q1",
+        "push": ""
+      }
+    },
+    {
+      "state": "q1",
+      "sees": "1",
+      "onStack": "Z",
+      "action": {
+        "mvState": "q1",
+        "push": "Z"
+      }
+    },
+    {
+      "state": "q1",
+      "sees": "λ",
+      "onStack": "Z",
+      "action": {
+        "mvState": "q2",
+        "push": ""
+      }
+    }
+  ],
+  "startState": "q0",
+  "startStack": "00Z",
+  "endStates": "q1"
+}

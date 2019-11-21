@@ -1,9 +1,6 @@
 package core
 
-import core.model.Branch
-import core.model.IdentifyResult
-import core.model.LangProps
-import core.model.LangStackMachine
+import core.model.*
 import java.util.*
 
 class StackMachine(initData: LangStackMachine) {
@@ -28,10 +25,11 @@ class StackMachine(initData: LangStackMachine) {
                 val charChain = stackChain.peek()
                 if (!alphabets.contains(charChain)) println("WARNING: symbol {${charChain}} not contains in the Lang alphabets")
                 val charSack = stackMachine.peek()
-                val options = if (branch.listProps.isEmpty()) getNeedRules(state, charChain, charSack) else branch.listProps
+                var options = if (branch.listProps.isEmpty()) getNeedRules(state, charChain, charSack) else branch.listProps
                 if (options.isEmpty()){
-                    fails += "${branch.ReconstructHistory()}: No way for (${state}, ${charChain}, ${charSack})."
-                    break
+//                    fails += "${branch.ReconstructHistory()}: No way for (${state}, ${charChain}, ${charSack})."
+//                    break
+                    options = listOf(LangProps(state,'-',charSack, ActionProps(state,"")))
                 }
                 val next = options[0]
                 val alternatives = options.drop(1)
@@ -39,9 +37,10 @@ class StackMachine(initData: LangStackMachine) {
                     branches.push(Branch(branch, altered.state, stackChain, stackMachine, listOf(altered)))
                 }
 
-                stackChain.pop()
+                if(next.sees != '-')
+                    stackChain.pop()
                 stackMachine.pop()
-                state = next.state
+                state = next.action.mvState
                 val push = next.action.push.toCharArray().reversedArray()
                 for (symbol in push){
                     stackMachine.push(symbol)
@@ -52,7 +51,23 @@ class StackMachine(initData: LangStackMachine) {
                 if(stackMachine.empty()){
                     return IdentifyResult( true, branch.ReconstructHistory())
                 } else {
-                    fails += "${branch.ReconstructHistory()}: Stopped Stack chain is empty while stackMachine is not empty."
+                    //fails += "${branch.ReconstructHistory()}: Stopped Stack chain is empty while stackMachine is not empty."
+                    branches.push(
+                        Branch(
+                            branch,
+                            branch.state,
+                            branch.stackChain,
+                            branch.stackMachine,
+                            listOf(
+                                LangProps(
+                                    branch.state,
+                                    '-',
+                                    branch.stackMachine.peek(),
+                                    ActionProps(branch.state, "")
+                                )
+                            )
+                        )
+                    )
                 }
             } else {
                 if(stackMachine.empty()){
